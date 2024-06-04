@@ -5,10 +5,11 @@ struct Rectangle {
 }
 
 fn main() {
+    let scale = 2;
     let rect = Rectangle {
-        width : 500,
+        width : dbg!(500 * scale),
         height : 300
     };
 
-    println!("\n rect has the dimensions {:?}", rect);
+    println!("\n rect has the dimensions {:#?}", rect);
 }
