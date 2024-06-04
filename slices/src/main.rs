@@ -17,17 +17,18 @@ fn main() {
     }
 
     fn second_word(some_string: &str) -> &str {
+        // our delimiter is a space so length of 1
         const DELIMITER_LENGTH: usize = 1;
+        
+        // we need to know where the second word starts
         let first_word = first_word(some_string);
         let begin_idx = first_word.len() + DELIMITER_LENGTH;
+        
+        // and then we will start from that second word parsing
         let rest_string = &some_string[begin_idx..];
         let bytes = rest_string.as_bytes();
 
-        println!("{rest_string}");
-
         for (i, &item) in bytes.iter().enumerate() {
-            println!("item {item}  idx {i}");
-
             if item == b' ' {
                 let end_idx = begin_idx + i;
                 return &some_string[begin_idx..end_idx];
