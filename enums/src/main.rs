@@ -15,7 +15,7 @@ impl Message {
             Message::Move{_x, _y} => println!("This it the Move message with values {_x} {_y}"),
 
             // you can put this as a default value for message types that do not match any other match arm
-            // _ => println!("Message unknown"),
+            // other => println!("Message not handled {:?}", other),
         }
     }
 }
