@@ -27,4 +27,27 @@ fn main() {
         println!("element of vector is {elem}");
     }
 
+    enum Cells {
+        Int(i32),
+        Text(String),
+        Float(f32) 
+    }
+
+    let v2: Vec<Cells> = vec![
+        Cells::Int(3), 
+        Cells::Text(String::from("Hello")), 
+        Cells::Float(2.0)
+    ];
+
+    println!("\nIterating over a  vector with enums als elements");
+    for elem in v2 {
+        match elem {
+            Cells::Int(i) => println!("element of vector is an Int : {i}"),
+            Cells::Float(f) => println!("element of vector is a Float  : {:?}", f),
+            Cells::Text(t) => println!("element of vector is a Test  : {t}"),
+        }
+        
+    }
+
+
 }
