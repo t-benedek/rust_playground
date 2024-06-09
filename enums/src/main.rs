@@ -8,7 +8,15 @@ enum Message {
 
 impl Message {
     fn call(&self) {
-        println!("This it the message : {:?}", self);
+        match self {
+            Message::Quit => println!("This it the Quit  message"),
+            Message::Write(msg) => println!("This it the Write  message with message : {msg}"),
+            Message::ChangeColor(r,g,b) => println!("This it the ChangeColor message with color values: {r} {g} {b}"),
+            Message::Move{_x, _y} => println!("This it the Move message with values {_x} {_y}"),
+
+            // you can put this as a default value for message types that do not match any other match arm
+            // _ => println!("Message unknown"),
+        }
     }
 }
 
@@ -23,7 +31,6 @@ fn main() {
     write.call();
     change.call();
     move_it.call();
-
 }
 
 
