@@ -15,13 +15,15 @@ impl Message {
 fn main() {
     // How to construct these enum variants
     let quit = Message::Quit;
-    let _move = Message::Move { _x: 10, _y: 20 };
+    let move_it = Message::Move { _x: 10, _y: 20 };
     let write = Message::Write(String::from("Hello"));
     let change = Message::ChangeColor(255, 255, 0);
 
     quit.call();
     write.call();
     change.call();
+    move_it.call();
+
 }
 
 
