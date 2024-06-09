@@ -17,6 +17,10 @@ impl Message {
             // you can put this as a default value for message types that do not match any other match arm
             // other => println!("Message not handled {:?}", other),
         }
+
+        if let Message::Write(msg) = self {
+            println!("<if let ...> can be used as a shortcut for the match statement if you only use one value: Write({msg})")
+        }
     }
 }
 
