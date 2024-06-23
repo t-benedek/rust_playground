@@ -5,13 +5,16 @@ fn main() {
     let mut given_list = vec!{1,88,11,3,13,17,88,88,7,5,13};
     // let mut given_list = vec!{1,2,3};
 
+    println!("\nInput Vector : {:?}", given_list);
+
     let median = integer_list_median(&mut given_list);
-    println!("\nMedian of {:?} is {}\n", given_list, median);
+    println!("Median : {}", median);
 
     let mode = integer_list_mode(&mut given_list);
-    println!("Mode of {:?} is {}\n", given_list, mode);
+    println!("Mode : {}\n", mode);
 }
 
+// find the median. This is the number with the middle position of the sorted vector 
 fn integer_list_median(given_list: &mut Vec<i32>) -> i32 {
     // Sort vector
     given_list.sort();
@@ -28,6 +31,7 @@ fn integer_list_median(given_list: &mut Vec<i32>) -> i32 {
     }
 }
 
+// find the mode. This is value that most often is found in the vector
 fn integer_list_mode(given_list: &mut Vec<i32>) -> i32 {
     let mut map : HashMap<&i32, i32> = HashMap::new();
     let mut most_often_int = 0;
