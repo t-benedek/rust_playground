@@ -12,6 +12,27 @@ fn main() {
 
     let mode = integer_list_mode(&mut given_list);
     println!("Mode : {}\n", mode);
+
+    // Convert String to Pig Latin
+    let input = String::from("first");
+    let mut res = String::from("");
+        let c = input.chars().next().unwrap();
+        match c {
+            'a'|'e'|'i'| 'o'| 'u' => {
+                res.push_str(&input);
+                res.push_str("hay")
+            }
+            _ => {
+                res.push_str(&input);
+                if res.len() > 0 {
+                    res.remove(0);
+                }
+                res.push(c);
+                res.push_str("ay")
+            }
+
+        }   
+    println!("Result is {:?}\n", res);
 }
 
 // find the median. This is the number with the middle position of the sorted vector 
@@ -48,4 +69,6 @@ fn integer_list_mode(given_list: &mut Vec<i32>) -> i32 {
     }
     most_often_int
 }
+
+
 
