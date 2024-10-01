@@ -8,14 +8,14 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");    
+        eprintln!("Problem parsing arguments: {err}");    
         process::exit(1);
     });
 
     // we are only interested if an Error is returned, but not in the Ok case as it only returns the unit type
     // so we do not use "unrwap_or_else" as above
     if let Err(e) = run(config) {
-        println!("App error; {e}");
+        eprintln!("App error; {e}");
         process::exit(1);
     }    
 }
