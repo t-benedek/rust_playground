@@ -12,6 +12,8 @@ fn main() {
         process::exit(1);
     });
 
+    // we are only interested if an Error is returned, but not in the Ok case as it only returns the unit type
+    // so we do not use "unrwap_or_else" as above
     if let Err(e) = run(config) {
         println!("App error; {e}");
         process::exit(1);
