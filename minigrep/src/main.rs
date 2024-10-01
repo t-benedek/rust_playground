@@ -1,7 +1,8 @@
 use std::env;
-use std::fs;
 use std::process;
+
 use minigrep::Config;
+use minigrep::run;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -11,9 +12,8 @@ fn main() {
         process::exit(1);
     });
 
-    let contents = fs::read_to_string(config.file_path)
-        .expect("Should have been able to read the file");
-
-    println!("Query String <{}>\n", config.query);
-    println!("File content: \n{}", contents);
+    if let Err(e) = run(config) {
+        println!("App error; {e}");
+        process::exit(1);
+    }    
 }

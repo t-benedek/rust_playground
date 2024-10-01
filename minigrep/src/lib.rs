@@ -1,3 +1,6 @@
+use std::fs;
+use std::error::Error;
+
 pub struct Config {
     pub query: String,
     pub file_path: String
@@ -14,4 +17,9 @@ impl Config {
     
         Ok(Config{query, file_path})
     }
+}
+
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let _contents = fs::read_to_string(config.file_path)?;
+    Ok(())
 }
