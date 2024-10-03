@@ -4,6 +4,12 @@ struct Rectangle {
     height: i32
 }
 
+impl Rectangle {
+    fn area(&self) -> i32 {
+        self.width * self.height
+    }
+}
+
 fn main() {
     let scale = 2;
     let rect = Rectangle {
@@ -12,4 +18,6 @@ fn main() {
     };
 
     println!("\n rect has the dimensions {:#?}", rect);
+
+    println!("\n The area of the rect is {} square pixels", rect.area());
 }

@@ -6,7 +6,6 @@ fn main() {
     println!("\n******** Closure definition ********");
     closure_inference();
     println!("**************************************\n");
-
 }
 
 fn closure_inference() {
@@ -15,7 +14,7 @@ fn closure_inference() {
     let _i = example_closure(32_i8.to_string());
     
     // this won't compile because the compiler inferred that example_closure takes a String as argument
-    // let _i = example_closure(32_i8());
+    // let _i = example_closure(32_i8);
 }
 
 fn closure_fun() {
