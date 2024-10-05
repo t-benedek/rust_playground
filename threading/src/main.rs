@@ -1,14 +1,13 @@
 use std::thread;
 use std::time::Duration;
-use std::sync::mpsc;
 
 fn main() {
-    // thread_join();
-
-    thread_messages();
+    // _thread_join();
+    // _thread_messages();
+    thread_shared_state();
 }
 
-fn thread_join() {
+fn _thread_join() {
     let handle = thread::spawn(|| 
         for i in 1..10 {
             println!("Hi number {i} from the spawned thread");
@@ -27,7 +26,9 @@ fn thread_join() {
         handle.join().unwrap();
 }
 
-fn thread_messages() {
+fn _thread_messages() {
+    use std::sync::mpsc;
+
     let (tx, rx) = mpsc::channel();
 
     let tx1 = tx.clone();
@@ -65,4 +66,27 @@ fn thread_messages() {
     for received in rx {
         println!("Got: {received}");
     }
+}
+
+fn thread_shared_state() {
+    use std::sync::{Arc, Mutex};
+
+    // we can use Arc instead of Rc that can be used in multi-threading context for reference count
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
 }
