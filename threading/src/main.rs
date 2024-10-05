@@ -2,8 +2,8 @@ use std::thread;
 use std::time::Duration;
 
 fn main() {
-    // _thread_join();
-    // _thread_messages();
+    _thread_join();
+    _thread_messages();
     thread_shared_state();
 }
 
