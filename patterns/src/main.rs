@@ -30,6 +30,14 @@ fn main() {
 
 }
 
+/// Shows how to use a match guard together with pattern matching
+/// 
+/// # Example
+/// ```
+/// match num {
+///     Some(x) if x %2 == 0 => ...
+/// }
+/// ```
 fn match_guard() {
     let num = Some(5);
     let y = 5;
