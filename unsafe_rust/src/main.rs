@@ -1,13 +1,31 @@
 use std::slice;
+
+static mut COUNTER: u32 = 0;
+
 fn main() {
+
     let mut v = vec![1,2,3,4,5,6];
     let r = &mut v[..];
     let (a,b) = split_at_mut(r, 3);
     println!("\n{:?}, {:?} \n", a , b);
     
+    // does not have to be an unsafe block here because we have a safe function
+    add_to_static_count(5);
+    unsafe {
+        // but here we require "unsafe" as this could lead to a data race
+        println!("COUNTER : {COUNTER}\n");
+    }
+    
+
     extern_c_call();
     
     raw_pointer();
+}
+
+fn add_to_static_count(inc: u32) {
+    unsafe {
+        COUNTER += inc;
+    }
 }
 
 fn raw_pointer() {
