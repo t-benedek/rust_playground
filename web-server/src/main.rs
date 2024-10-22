@@ -8,7 +8,6 @@ fn main() {
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
-        
         handle_conection(stream);
     }    
 }
@@ -18,7 +17,6 @@ fn handle_conection(mut stream: TcpStream) {
     let http_request: Vec<_> = buf_reader
         .lines()
         .map(|result| result.unwrap())
-        .take_while(|line| line.is_empty())
         .collect();
 
     println!("Reuqest: {:#?}", http_request); 
