@@ -1,5 +1,5 @@
 use std::{
-    fs,
+    fs::{self, read_to_string},
     io::{prelude::*, BufReader},   
     net::{TcpListener, TcpStream}, result,
 };
@@ -15,18 +15,21 @@ fn main() {
 
 fn handle_conection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
-    let http_request: Vec<_> = buf_reader
+    let request_line = buf_reader
         .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+        .next()
+        .unwrap()
+        .unwrap();
+        
+    let (status_line, filename) = 
+        if request_line == "GET / HTTP/1.1" {
+            ("HTTP/1.1 200 OK", "hello.html")
+        } else {
+            ("HTTP/1.1 404 NOT FOUND", "404.html")
+        };
 
-    // let status_line = "http/1.1 200 OK\r\n\r\nHELLO";
-    let status_line = "http/1.1 200 OK";
-    let contents = fs::read_to_string("hello.html").unwrap();
+    let contents = fs::read_to_string(filename).unwrap();
     let len = contents.len();
-
-    // let response = format!("{status_line}\r\n\r\nHELLO1");
 
     let response = format!(
         "{status_line}\r\n\
@@ -35,4 +38,5 @@ fn handle_conection(mut stream: TcpStream) {
     );
 
     stream.write(response.as_bytes()).unwrap();
+    
 }
