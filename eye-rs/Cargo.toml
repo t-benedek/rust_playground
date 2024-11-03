@@ -1,0 +1,7 @@
+[package]
+name = "eye-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+eye = "0.4.1"
