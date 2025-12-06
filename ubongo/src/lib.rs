@@ -63,6 +63,7 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
     visualize_board(fields);
     visualize_piece(&piece.fields);
 
+    // Return false if piece if larger than the board
     if x_off >= fields.len() || y_off >= fields[0].len() {
         return false;
     }
@@ -163,22 +164,29 @@ mod tests {
         init_green2_piece(&mut green2_piece);  
 
         /* TRUE */
-        // assert!(passing_piece(&board.fields, &green1_piece, 0, 0));
-        // assert!(passing_piece(&board.fields, &green1_piece, 1, 0));
-        // assert!(passing_piece(&board.fields, &green1_piece, 0, 1));
-        // assert!(passing_piece(&board.fields, &green1_piece, 1, 1));
+        assert!(passing_piece(&board.fields, &green1_piece, 3, 0));
+        assert!(passing_piece(&board.fields, &green1_piece, 2, 1));
+        assert!(passing_piece(&board.fields, &green1_piece, 1, 2));
+        assert!(passing_piece(&board.fields, &green1_piece, 1, 2));
 
-        // assert!(passing_piece(&board.fields, &green2_piece, 0, 1));
-        assert!(passing_piece(&board.fields, &green2_piece, 0, 2));
-        // assert!(passing_piece(&board.fields, &green2_piece, 1, 1));
+        assert!(passing_piece(&board.fields, &green2_piece, 0, 1));
+        assert!(passing_piece(&board.fields, &green2_piece, 2, 1));
         
-        // /* FALSE */
-        // assert!( ! passing_piece(&board.fields, &green1_piece, 0, 2));
+        
+        /* FALSE */
+        assert!( ! passing_piece(&board.fields, &green1_piece, 3, 1));
+        assert!( ! passing_piece(&board.fields, &green1_piece, 2, 2));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 1, 3));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 0, 4));
+
+        assert!( ! passing_piece(&board.fields, &green2_piece, 0, 2));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 3, 1));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 4, 0));
 
     }       
 
     fn init_board(board: &mut Board) {
-        // 1 1 1 1 0 
+        // 1 1 1 1 1
         // 1 1 1 1 0 
         // 1 1 1 0 0 
         // 0 0 0 0 0 
@@ -187,6 +195,7 @@ mod tests {
         board.fields[1][0] = true;
         board.fields[2][0] = true;
         board.fields[3][0] = true;
+        board.fields[4][0] = true;
         
         board.fields[0][1] = true;
         board.fields[1][1] = true;
@@ -221,26 +230,22 @@ mod tests {
     }
 
     fn init_green1_piece(piece: &mut Piece) {
-        // 1 1 1 0  
-        // 1 0 0 0  
+        // 1 1 0 0  
+        // 0 0 0 0  
         // 0 0 0 0  
         piece.fields[0][0] = true;
         piece.fields[1][0] = true;
-        piece.fields[2][0] = true;
-        piece.fields[0][1] = true;
-        piece.count = 4;
+        piece.count = 2;
     }
     
     // rotation of green1
     fn init_green2_piece(piece: &mut Piece) {
-        // 0 0 1 0  
-        // 1 1 1 0  
+        // 1 0 0 0  
+        // 1 0 0 0  
         // 0 0 0 0  
-        piece.fields[2][0] = true;
+        piece.fields[0][0] = true;
         piece.fields[0][1] = true;
-        piece.fields[1][1] = true;
-        piece.fields[2][1] = true;
-        piece.count = 4;
+        piece.count = 2;
     }
 
 }
