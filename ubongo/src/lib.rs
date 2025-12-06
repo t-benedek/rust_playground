@@ -60,8 +60,6 @@ pub fn set_piece(mut _fields: Vec<Vec<bool>>, _piece: &Piece, _x: usize, _y: usi
 }
 
 pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_off: usize) -> bool {
-    visualize_board(fields);
-    visualize_piece(&piece.fields);
 
     // Return false if piece if larger than the board
     if x_off >= fields.len() || y_off >= fields[0].len() {
@@ -83,6 +81,9 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
                 // no free field for piece
                 if  ! fields[x][y] {
                     println!("Piece does not fit field at ({x})({y})");
+                    visualize_board(fields);
+                    visualize_piece(&piece.fields);
+
                     result = false;
                 } 
             } 
@@ -170,7 +171,7 @@ mod tests {
         assert!(passing_piece(&board.fields, &green1_piece, 1, 2));
 
         assert!(passing_piece(&board.fields, &green2_piece, 0, 1));
-        assert!(passing_piece(&board.fields, &green2_piece, 2, 1));
+        assert!(passing_piece(&board.fields, &green2_piece, 1, 1));
         
         
         /* FALSE */
@@ -180,8 +181,8 @@ mod tests {
         assert!( ! passing_piece(&board.fields, &green2_piece, 0, 4));
 
         assert!( ! passing_piece(&board.fields, &green2_piece, 0, 2));
-        assert!( ! passing_piece(&board.fields, &green2_piece, 3, 1));
-        assert!( ! passing_piece(&board.fields, &green2_piece, 4, 0));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 2, 1));
+        assert!( ! passing_piece(&board.fields, &green2_piece, 3, 0));
 
     }       
 
@@ -240,11 +241,11 @@ mod tests {
     
     // rotation of green1
     fn init_green2_piece(piece: &mut Piece) {
-        // 1 0 0 0  
-        // 1 0 0 0  
+        // 0 1 0 0  
+        // 0 1 0 0  
         // 0 0 0 0  
-        piece.fields[0][0] = true;
-        piece.fields[0][1] = true;
+        piece.fields[1][0] = true;
+        piece.fields[1][1] = true;
         piece.count = 2;
     }
 
