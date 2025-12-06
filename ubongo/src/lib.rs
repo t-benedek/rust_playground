@@ -95,52 +95,68 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
 #[cfg(test)]
 mod tests {
      use super::*;
-//     #[test]
-//     fn test_canfit() {        
-//         let mut board = Board {
-//             fields : vec![vec![false; 5]; 5],
-//             count : 0
-//         };
-//         let mut red_piece = Piece {
-//             fields : vec![vec![false; 4]; 3],
-//             count : 0
-//         };    
-//         let mut blue_piece = Piece {
-//             fields : vec![vec![false; 4]; 3],
-//             count : 0
-//         };
+    
+    #[test]
+    fn test_canfit_blue() {        
+        let mut board = Board {
+            fields : [[false; 5]; 5],
+            count : 0
+        };
 
-//         init_board(&mut board);
-//         init_red_piece(&mut red_piece);
-//         init_blue_piece(&mut blue_piece);  
+        let mut blue_piece = Piece {
+            fields : [[false; 4]; 4],
+            count : 0
+        };
 
-//         // fitting
-//         assert!(passing_piece(&board.fields, &red_piece, 0, 0));
-//         assert!(passing_piece(&board.fields, &red_piece, 1, 0));
-//         assert!(passing_piece(&board.fields, &red_piece, 0, 1));
-//         assert!(passing_piece(&board.fields, &red_piece, 2, 0));
-//         assert!(passing_piece(&board.fields, &red_piece, 1, 1));
+        init_board(&mut board);
+        init_blue_piece(&mut blue_piece);  
 
-//         assert!(passing_piece(&board.fields, &blue_piece, 0, 0));
-//         assert!(passing_piece(&board.fields, &blue_piece, 1, 0));
-//         assert!(passing_piece(&board.fields, &blue_piece, 0, 2));
+        /* Board */
+        // 1 1 1 1 1
+        // 1 1 1 1 0 
+        // 1 1 1 0 0 
+        // 0 0 0 0 0 
+        // 0 0 0 0 0    
 
-//         // testing out of bound
-//         assert!( ! passing_piece(&board.fields, &red_piece, 5, 0));
-//         assert!( ! passing_piece(&board.fields, &red_piece, 0, 5));
-//         assert!( ! passing_piece(&board.fields, &red_piece, 4, 0));
+        // TRUE
+        assert!(passing_piece(&board.fields, &blue_piece, 0, 2));
+        assert!(passing_piece(&board.fields, &blue_piece, 1, 1));
+        assert!(passing_piece(&board.fields, &blue_piece, 2, 0));
 
-//         assert!( ! passing_piece(&board.fields, &blue_piece, 3, 0));
-        
-//         // test not fitting
-//         assert!( ! passing_piece(&board.fields, &red_piece, 3, 0));
-//         assert!( ! passing_piece(&board.fields, &red_piece, 2, 1));
-//         assert!( ! passing_piece(&board.fields, &red_piece, 1, 2));
+        // FALSE
+        assert!( ! passing_piece(&board.fields, &blue_piece, 1, 2));
+        assert!( ! passing_piece(&board.fields, &blue_piece, 2, 1));
+    }
 
-//         assert!( ! passing_piece(&board.fields, &blue_piece, 1, 3));
-//         assert!( ! passing_piece(&board.fields, &blue_piece, 2, 0));
+        #[test]
+    fn test_canfit_red() {        
+        let mut board = Board {
+            fields : [[false; 5]; 5],
+            count : 0
+        };
 
-//     }
+        let mut red_piece = Piece {
+            fields : [[false; 4]; 4],
+            count : 0
+        };
+
+        init_board(&mut board);
+        init_red_piece(&mut red_piece);  
+
+        /* Board */
+        // 1 1 1 1 1
+        // 1 1 1 1 0 
+        // 1 1 1 0 0 
+        // 0 0 0 0 0 
+        // 0 0 0 0 0    
+
+        // TRUE
+        assert!(passing_piece(&board.fields, &red_piece, 2, 0));
+
+        // FALSE
+        assert!( ! passing_piece(&board.fields, &red_piece, 2, 1));
+        assert!( ! passing_piece(&board.fields, &red_piece, 3, 0));
+    }
 
     #[test]
     fn test_canfit_green() {
