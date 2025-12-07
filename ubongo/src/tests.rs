@@ -101,7 +101,7 @@ fn create_green2_piece() -> Piece {
 #[test]
 fn test_set_blue() {        
     let mut board = create_board();
-    let blue_piece = create_blue_piece();
+    let green2_piece = create_blue_piece();
 
     /* Board before */
     // 1 1 1 1 1
@@ -113,7 +113,7 @@ fn test_set_blue() {
     assert_eq!(board.fields[2][0], true);
     assert_eq!(board.fields[3][0], true);
     assert_eq!(board.fields[4][0], true);
-    set_piece(&mut board.fields, &blue_piece, 2, 0);
+    set_piece(&mut board.fields, &green2_piece, 2, 0);
     assert_eq!(board.fields[2][0], false);
     assert_eq!(board.fields[3][0], false);
     assert_eq!(board.fields[4][0], false);
@@ -126,17 +126,43 @@ fn test_set_blue() {
     // 0 0 0 0 0   
 }
 
+#[test]
+fn test_set_green2() {        
+    let mut board = create_board();
+    let green2_piece = create_green2_piece();
+
+    /* Board before */
+    // 1 1 1 1 1
+    // 1 1 1 1 0 
+    // 1 1 1 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0   
+    
+    assert_eq!(board.fields[1][0], true);
+    assert_eq!(board.fields[1][1], true);
+    set_piece(&mut board.fields, &green2_piece, 0, 0);
+    assert_eq!(board.fields[1][0], false);
+    assert_eq!(board.fields[1][1], false);
+
+    /* Board after */
+    // 1 0 1 1 1
+    // 1 0 1 1 0 
+    // 1 1 1 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0   
+}
+
 
 #[test]
 fn test_canfit_blue() {        
     let board = create_board();
-    let blue_piece = create_blue_piece();
+    let green2_piece = create_blue_piece();
     
-    assert!(   passing_piece(&board.fields, &blue_piece, 0, 1));
-    assert!(   passing_piece(&board.fields, &blue_piece, 1, 1));
-    assert!(   passing_piece(&board.fields, &blue_piece, 2, 0));
-    assert!( ! passing_piece(&board.fields, &blue_piece, 1, 2));
-    assert!( ! passing_piece(&board.fields, &blue_piece, 2, 1));
+    assert!(   passing_piece(&board.fields, &green2_piece, 0, 1));
+    assert!(   passing_piece(&board.fields, &green2_piece, 1, 1));
+    assert!(   passing_piece(&board.fields, &green2_piece, 2, 0));
+    assert!( ! passing_piece(&board.fields, &green2_piece, 1, 2));
+    assert!( ! passing_piece(&board.fields, &green2_piece, 2, 1));
 }
 
 #[test]
