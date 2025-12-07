@@ -7,63 +7,44 @@ pub struct Board {
 #[cfg(test)]
 mod tests;
 
-pub fn fit(_board: Board, _piece: Piece) -> bool {
-    todo!("implement fit function");
-//     // copy fields to change it from now on
-//     let mut fields = board.fields;
-//     let x = 0;
-//     let y = 0;
-//     visualize(&fields);
-
-//     if passing_piece(&fields, &piece, x, y) {
-//         fields = set_piece(fields, &piece, x, y);
-//     }
+/**
+* Set a given piece on the fields with the offset (x_off,y_off) 
+* After this function the amount of free items in the field is reduced by number of items of the piece
+* If piece does not fit on the field, this function returns without any effect
+**/
+pub fn set_piece(fields: &mut [[bool; 5]; 5], piece: &Piece, x_off: usize, y_off: usize) {
+    if offset_outside_fields(fields, x_off, y_off) {
+        return;
+    }
     
-//     visualize(&fields);
-
-//     true
+    // iterate over all items of the piece and set field item to "0" if piece item is "1"
+    for i in 0..piece.fields.len() {
+        for j in 0..piece.fields[i].len() {
+            if piece.fields[i][j] {
+                if  fields[i+x_off][j+y_off] {
+                    // overwrite the remaining board field elements with the piece
+                    fields[i+x_off][j+y_off] = false;    
+                } 
+            } 
+        }
+    }        
 }
 
-pub fn visualize_board(fields: &[[bool;5];5]) {
-    println!();
-    for y in 0..5 {
-        for x in 0..5 {
-            print!("{} ", fields[x][y] as u8);
-        }
-        println!();
-    }        
-} 
-
-
-pub fn visualize_piece(fields: &[[bool;4];4]) {
-    println!();
-    for x in 0..4 {
-        for y in 0..4 {
-            print!("{} ", fields[x][y] as u8);
-        }
-        println!();
-    }        
-} 
-
-pub fn set_piece(mut _fields: Vec<Vec<bool>>, _piece: &Piece, _x: usize, _y: usize) -> Vec<Vec<bool>> {
-    todo!("implement set_piece function");
-//     for i in 0..piece.fields.len() {
-//         for j in 0..piece.fields[i].len() {
-//             if piece.fields[i][j] {
-//                 if  fields[i+y][j+x] {
-//                     // overwrite the remaining board field elements with the piece
-//                     fields[i+y][j+x] = !piece.fields[i][j];    
-//                 } 
-//             } 
-//         }
-//     }        
-//     fields
+fn offset_outside_fields(fields : &[[bool; 5]; 5], x_off: usize, y_off: usize) -> bool {
+    if x_off >= fields.len() || y_off >= fields[0].len() {
+        return true;
+    } 
+    false
 }
-
+/**
+* Check if a piece fits into the remaining open fields of a given board
+* Offset is needed to be able to move pieces around the fields
+* 
+**/
 pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_off: usize) -> bool {
 
     // Return false if piece if larger than the board
-    if x_off >= fields.len() || y_off >= fields[0].len() {
+    if offset_outside_fields(fields, x_off, y_off) {
         return false;
     }
 
@@ -109,3 +90,24 @@ impl Piece {
         }        
     } 
 }
+
+pub fn visualize_board(fields: &[[bool;5];5]) {
+    println!();
+    for y in 0..5 {
+        for x in 0..5 {
+            print!("{} ", fields[x][y] as u8);
+        }
+        println!();
+    }        
+} 
+
+pub fn visualize_piece(fields: &[[bool;4];4]) {
+    println!();
+    for x in 0..4 {
+        for y in 0..4 {
+            print!("{} ", fields[x][y] as u8);
+        }
+        println!();
+    }        
+} 
+

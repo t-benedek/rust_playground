@@ -1,5 +1,43 @@
 use super::*;
-    
+
+    #[test]
+    fn test_set_blue() {        
+        let mut board = Board {
+            fields : [[false; 5]; 5],
+            count : 0
+        };
+
+        let mut blue_piece = Piece {
+            fields : [[false; 4]; 4],
+            count : 0
+        };
+
+        init_board(&mut board);
+        init_blue_piece(&mut blue_piece);  
+
+        /* Board before */
+        // 1 1 1 1 1
+        // 1 1 1 1 0 
+        // 1 1 1 0 0 
+        // 0 0 0 0 0 
+        // 0 0 0 0 0   
+        assert_eq!(board.fields[2][0], true);
+        assert_eq!(board.fields[3][0], true);
+        assert_eq!(board.fields[4][0], true);
+        set_piece(&mut board.fields, &blue_piece, 2, 0);
+        assert_eq!(board.fields[2][0], false);
+        assert_eq!(board.fields[3][0], false);
+        assert_eq!(board.fields[4][0], false);
+
+        /* Board after */
+        // 1 1 0 0 0
+        // 1 1 1 1 0 
+        // 1 1 1 0 0 
+        // 0 0 0 0 0 
+        // 0 0 0 0 0   
+    }
+
+
     #[test]
     fn test_canfit_blue() {        
         let mut board = Board {
