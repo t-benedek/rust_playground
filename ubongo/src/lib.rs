@@ -99,7 +99,7 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
 }
 
 // Board looks like this
-// 1 1 1 1 1
+// 1 1 1 1 0
 // 1 1 1 1 0 
 // 1 1 1 0 0 
 // 0 0 0 0 0 
@@ -113,7 +113,6 @@ pub fn create_board() -> Board {
     board.fields[1][0] = true;
     board.fields[2][0] = true;
     board.fields[3][0] = true;
-    board.fields[4][0] = true;
     
     board.fields[0][1] = true;
     board.fields[1][1] = true;
@@ -150,7 +149,7 @@ pub fn create_red() -> Piece {
 // 1 1 1 0  
 // 0 0 0 0  
 // 0 0 0 0  
-pub fn create_blue_piece(horizontal: bool) -> Piece {
+pub fn create_blue(horizontal: bool) -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
         count : 0
