@@ -4,6 +4,30 @@ pub struct Board {
     pub count : u8
 }
 
+pub struct Piece {
+    pub fields : [[bool;4];4],
+    pub count : u8
+}
+
+impl Piece {
+    pub fn visualize(&self) {
+        println!();
+        for i in 0..self.fields.len() {
+            for j in 0..self.fields[i].len() {
+                print!("{} ", self.fields[i][j] as u8);
+            }
+        println!();
+        }        
+    } 
+}
+
+pub enum Orientation {
+    North,
+    East,
+    South,
+    West    
+} 
+
 #[cfg(test)]
 mod tests;
 
@@ -74,24 +98,6 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
     result
 }
 
-pub struct Piece {
-    pub fields : [[bool;4];4],
-    pub count : u8
-}
-
-impl Piece {
-    pub fn visualize(&self) {
-        println!();
-        for i in 0..self.fields.len() {
-            for j in 0..self.fields[i].len() {
-                print!("{} ", self.fields[i][j] as u8);
-            }
-        println!();
-        }        
-    } 
-}
-
-
 // Board looks like this
 // 1 1 1 1 1
 // 1 1 1 1 0 
@@ -126,7 +132,7 @@ pub fn create_board() -> Board {
 // 1 1 0 0  
 // 1 1 0 0  
 // 0 0 0 0  
-pub fn create_red_piece() -> Piece {
+pub fn create_red() -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
         count : 0
@@ -144,21 +150,101 @@ pub fn create_red_piece() -> Piece {
 // 1 1 1 0  
 // 0 0 0 0  
 // 0 0 0 0  
-pub fn create_blue_piece() -> Piece {
+pub fn create_blue_piece(horizontal: bool) -> Piece {
+    let mut piece = Piece {
+        fields : [[false; 4]; 4],
+        count : 0
+    };
+    
+    piece.count = 3;
+
+    if horizontal {
+        piece.fields[0][0] = true;
+        piece.fields[1][0] = true;
+        piece.fields[2][0] = true;
+    } else {
+        piece.fields[0][0] = true;
+        piece.fields[0][1] = true;
+        piece.fields[0][2] = true;
+     }
+    return piece;
+}
+
+
+pub fn create_green(orientation: Orientation) -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
         count : 0
     };
 
-    piece.fields[0][0] = true;
-    piece.fields[1][0] = true;
-    piece.fields[2][0] = true;
-    piece.count = 3;
-
+    // Orientation always related to the longest part of the piece
+    match orientation {
+        Orientation::North => {
+            // 1 1 1 0  
+            // 1 0 0 0  
+            // 0 0 0 0  
+            piece.fields[0][0] = true;
+            piece.fields[1][0] = true;
+            piece.fields[2][0] = true;
+            piece.fields[0][1] = true;
+        },
+        Orientation::East =>  {              
+            // 1 1 0 0  
+            // 0 1 0 0  
+            // 0 1 0 0  
+            piece.fields[0][0] = true;
+            piece.fields[1][0] = true;
+            piece.fields[1][1] = true;
+            piece.fields[1][2] = true;
+        },
+        Orientation::South => {
+            // 0 0 1 0  
+            // 1 1 1 0  
+            // 0 0 0 0 
+            piece.fields[2][0] = true;
+            piece.fields[0][1] = true;
+            piece.fields[1][1] = true;
+            piece.fields[2][1] = true;
+        },
+        Orientation::West => {
+            // 1 0 0 0  
+            // 1 0 0 0  
+            // 1 1 0 0         
+            piece.fields[0][0] = true;
+            piece.fields[1][0] = true;
+            piece.fields[2][0] = true;
+            piece.fields[2][1] = true;
+        },
+    }
+    piece.count = 4;
     return piece;
 }
 
 
+
+
+// 1 1 0 0  
+// 0 0 0 0  
+// 0 0 0 0  
+pub fn create_violet(horizontal: bool) -> Piece {
+    let mut piece = Piece {
+        fields : [[false; 4]; 4],
+        count : 0
+    };
+
+    if horizontal == true {
+        piece.fields[0][0] = true;
+        piece.fields[1][0] = true;
+    } else {
+        piece.fields[0][0] = true;
+        piece.fields[0][1] = true;
+    }
+
+    piece.count = 2;
+    return piece;
+}
+ 
+    
 pub fn visualize_board(fields: &[[bool;5];5]) {
     println!();
     for y in 0..5 {
