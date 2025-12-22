@@ -210,17 +210,14 @@ pub fn create_green(orientation: Orientation) -> Piece {
             // 1 0 0 0  
             // 1 1 0 0         
             piece.fields[0][0] = true;
-            piece.fields[1][0] = true;
-            piece.fields[2][0] = true;
-            piece.fields[2][1] = true;
+            piece.fields[0][1] = true;
+            piece.fields[0][2] = true;
+            piece.fields[1][2] = true;
         },
     }
     piece.count = 4;
     return piece;
 }
-
-
-
 
 // 1 1 0 0  
 // 0 0 0 0  
@@ -241,6 +238,17 @@ pub fn create_violet(horizontal: bool) -> Piece {
 
     piece.count = 2;
     return piece;
+}
+
+pub fn check_board_complete(board: &Board) -> Option<(usize, usize)> {
+    for i in 0..board.fields.len() {
+        for j in 0..board.fields[i].len() {
+            if board.fields[i][j] {
+                return Some((i,j));
+            }
+        }
+    }  
+    None
 }
  
     

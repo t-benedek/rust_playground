@@ -1,5 +1,60 @@
 use super::*;
 
+
+#[test]
+fn real_solution() {        
+    let mut board = create_board();
+    let blue_vert = create_blue(false);
+    let green_west = create_green(Orientation::West);
+    let red = create_red();
+
+    /* Board before */
+    // 1 1 1 1 0
+    // 1 1 1 1 0 
+    // 1 1 1 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0   
+    
+    if passing_piece(&board.fields, &blue_vert, 0, 0) {
+        set_piece(&mut board.fields, &blue_vert, 0, 0);
+    }
+    assert_eq!(board.fields[0][0], false);
+    assert_eq!(board.fields[0][1], false);
+    assert_eq!(board.fields[0][2], false);
+
+    if passing_piece(&board.fields, &green_west, 1, 0) {
+        set_piece(&mut board.fields, &green_west, 1, 0);
+    }
+    
+    assert_eq!(board.fields[1][0], false);
+    assert_eq!(board.fields[1][1], false);
+    assert_eq!(board.fields[1][2], false);
+    assert_eq!(board.fields[2][2], false);
+
+    if passing_piece(&board.fields, &red, 2, 0) {
+        set_piece(&mut board.fields, &red, 2, 0);
+    }
+
+    let result = check_board_complete(&board);
+
+    match result {
+        Some((row, col)) => {
+            panic!("Reihe {}, Spalte {}", row, col);
+        }
+        None => {
+            // Board is complete
+        }
+    }
+
+    /* Board after */
+    // 0 0 0 0 0
+    // 0 0 0 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0   
+}
+
+
 #[test]
 fn test_set_blue_hori_and_violet_hori() {        
     let mut board = create_board();
@@ -201,4 +256,30 @@ fn test_canfit_green_north() {
     /* FALSE */
     assert!( ! passing_piece(&board.fields, &green_north, 0, 2));
     assert!( ! passing_piece(&board.fields, &green_north, 2, 2));
+}       
+
+#[test]
+fn canfit_green_west() {
+    let board = create_board();
+    let green_west = create_green(Orientation::West);
+
+    // Board looks like this
+    // 1 1 1 1 0
+    // 1 1 1 1 0 
+    // 1 1 1 0 0 
+    // 0 0 0 0 0 
+    // 0 0 0 0 0 
+
+    // Green Piece looks like this
+    // 1 0 0 0  
+    // 1 0 0 0  
+    // 1 1 0 0   
+
+    /* TRUE */
+    assert!(passing_piece(&board.fields, &green_west, 0, 0));
+    assert!(passing_piece(&board.fields, &green_west, 1, 0));
+    
+    /* FALSE */
+    assert!( ! passing_piece(&board.fields, &green_west, 2, 0));
+    assert!( ! passing_piece(&board.fields, &green_west, 0, 2));
 }       
