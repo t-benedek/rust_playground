@@ -86,9 +86,9 @@ pub fn passing_piece(fields : &[[bool; 5]; 5], piece: &Piece, x_off: usize, y_of
                     
                 // no free field for piece
                 if  ! fields[x][y] {
-                    println!("Piece does not fit field at ({x})({y})");
-                    visualize_board(fields);
-                    visualize_piece(&piece.fields);
+                    // println!("Piece does not fit field at ({x})({y})");
+                    // visualize_board(fields);
+                    // visualize_piece(&piece.fields);
 
                     result = false;
                 } 
@@ -240,10 +240,10 @@ pub fn create_violet(horizontal: bool) -> Piece {
     return piece;
 }
 
-pub fn check_board_complete(board: &Board) -> Option<(usize, usize)> {
-    for i in 0..board.fields.len() {
-        for j in 0..board.fields[i].len() {
-            if board.fields[i][j] {
+pub fn check_board_complete(fields: &[[bool; 5]; 5]) -> Option<(usize, usize)> {
+    for i in 0..fields.len() {
+        for j in 0..fields[i].len() {
+            if fields[i][j] {
                 return Some((i,j));
             }
         }

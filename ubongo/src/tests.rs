@@ -1,5 +1,61 @@
+use core::panic;
+
 use super::*;
 
+
+#[test]
+fn search_for_real_solution() {        
+    let board = create_board();
+    let blue_vert = create_blue(false);
+    let green_west = create_green(Orientation::West);
+    let red = create_red();
+
+    for i in 0..board.fields.len() {
+        for j in 0..board.fields[i].len() {
+            
+            if passing_piece(&board.fields, &blue_vert, i, j) {
+                let mut copy_field = board.fields;
+                set_piece(&mut copy_field, &blue_vert, i, j);
+                println!("After setting blue at ({},{})", i, j);
+                visualize_board(&copy_field);
+                for i in 0..copy_field.len() {
+                    for j in 0..copy_field[i].len() {    
+                        
+                        if passing_piece(&mut copy_field, &green_west, i, j) {
+                            let mut copy_field1 = copy_field;
+                            set_piece(&mut copy_field1, &green_west, i, j);
+                            println!("After setting green at ({},{})", i, j);
+                            visualize_board(&copy_field1);                            
+                            for i in 0..copy_field1.len() {
+                                for j in 0..copy_field1[i].len() {    
+                                    
+                                    if passing_piece(&mut copy_field1, &red, i, j) {
+                                        let mut copy_field2 = copy_field1;
+                                        set_piece(&mut copy_field2, &red, i, j);
+                                        println!("After setting red at ({},{})", i, j);
+                                        visualize_board(&copy_field2);      
+                                        let result = check_board_complete(&copy_field2);
+                                        match result {
+                                            Some((row, col)) => {
+                                                panic!("Reihe {}, Spalte {}", row, col);
+                                            }
+                                            None => {
+                                                println!("Found solution!");
+                                                return; 
+                                            }
+                                        }  
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+panic!("Test did not succeed"); 
+
+}
 
 #[test]
 fn real_solution() {        
@@ -35,7 +91,7 @@ fn real_solution() {
         set_piece(&mut board.fields, &red, 2, 0);
     }
 
-    let result = check_board_complete(&board);
+    let result = check_board_complete(&board.fields);
 
     match result {
         Some((row, col)) => {
