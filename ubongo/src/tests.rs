@@ -13,10 +13,10 @@ fn search_for_real_solution() {
     for i in 0..board.fields.len() {
         for j in 0..board.fields[i].len() {
             
-            if passing_piece(&board.fields, &blue_vert, i, j) {
+            if passing_piece(&board.fields, &red, i, j) {
                 let mut copy_field = board.fields;
-                set_piece(&mut copy_field, &blue_vert, i, j);
-                println!("After setting blue at ({},{})", i, j);
+                set_piece(&mut copy_field, &red, i, j);
+                println!("After setting red at ({},{})", i, j);
                 visualize_board(&copy_field);
                 for i in 0..copy_field.len() {
                     for j in 0..copy_field[i].len() {    
@@ -29,10 +29,10 @@ fn search_for_real_solution() {
                             for i in 0..copy_field1.len() {
                                 for j in 0..copy_field1[i].len() {    
                                     
-                                    if passing_piece(&mut copy_field1, &red, i, j) {
+                                    if passing_piece(&mut copy_field1, &blue_vert, i, j) {
                                         let mut copy_field2 = copy_field1;
-                                        set_piece(&mut copy_field2, &red, i, j);
-                                        println!("After setting red at ({},{})", i, j);
+                                        set_piece(&mut copy_field2, &blue_vert, i, j);
+                                        println!("After setting blue at ({},{})", i, j);
                                         visualize_board(&copy_field2);      
                                         let result = check_board_complete(&copy_field2);
                                         match result {
@@ -53,8 +53,7 @@ fn search_for_real_solution() {
             }
         }
     }
-panic!("Test did not succeed"); 
-
+    panic!("Test did not succeed"); 
 }
 
 #[test]
