@@ -1,5 +1,4 @@
 use core::panic;
-use std::result;
 
 use super::*;
 
@@ -9,7 +8,7 @@ fn test_the_algorithm() {
     let blue_vert = create_blue(false);
     let green_west = create_green(Orientation::West);
     let red = create_red();
-    let pieces: Vec<Piece> = vec![red, green_west, blue_vert];
+    let pieces: Vec<Piece> = vec![blue_vert, red, green_west];
     
     let result = solve(board.fields, &pieces);
     if result {
@@ -20,18 +19,18 @@ fn test_the_algorithm() {
 }
 
 fn solve(fields: [[bool; 5]; 5], pieces: &Vec<Piece>) -> bool {
-    let result = solve_board(fields, pieces, 0);
-    
-    println!("Final board:");     
-    visualize_board(&fields);                
-    // result is true if we used all pieces and all could be fit into the board. 
-    // if the board still has non-empty fields, no solution possible
-    return result;}
+    let result = solve_board(fields, pieces, 0);                  
+    return result;
+}
 
 fn solve_board(fields: [[bool; 5]; 5], pieces: &Vec<Piece>, curr_piece: usize) -> bool {
     let mut result = false;
     if curr_piece >= pieces.len() {
+        // result is true if we used all pieces and all could be fit into the board. 
+        // if the board still has non-empty fields, no solution possible
         if {check_board_complete(&fields)}.is_none() {
+            println!("Final board:");     
+            visualize_board(&fields);  
             return true;
         } else {
             return false;       
@@ -46,10 +45,17 @@ fn solve_board(fields: [[bool; 5]; 5], pieces: &Vec<Piece>, curr_piece: usize) -
                 set_piece(&mut copy_field, &piece, i, j);
                 println!("After setting {} at ({},{})", piece.name, i, j);
                 visualize_board(&copy_field);
-                result = solve_board(copy_field, pieces, curr_piece + 1);                
+                result = solve_board(copy_field, pieces, curr_piece + 1);  
+                
+                // if we found a solution, we do not have to search further and can return true 
+                if result == true && curr_piece == 0 {
+                    println!("Returning result {} for piece {}", result, piece.name);   
+                    return true;
+                }   
             }
         }
     }
+    println!("Returning result {} for piece {}", result, piece.name);   
     return result;
 }
 
