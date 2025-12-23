@@ -6,7 +6,8 @@ pub struct Board {
 
 pub struct Piece {
     pub fields : [[bool;4];4],
-    pub count : u8
+    pub count : u8,
+    pub name: String
 }
 
 impl Piece {
@@ -134,7 +135,8 @@ pub fn create_board() -> Board {
 pub fn create_red() -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
-        count : 0
+        count : 0,
+        name: String::from("Red")   
     };
     piece.fields[0][0] = true;
     piece.fields[0][1] = true;
@@ -152,7 +154,8 @@ pub fn create_red() -> Piece {
 pub fn create_blue(horizontal: bool) -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
-        count : 0
+        count : 0,
+        name: String::from("Blue")
     };
     
     piece.count = 3;
@@ -173,7 +176,8 @@ pub fn create_blue(horizontal: bool) -> Piece {
 pub fn create_green(orientation: Orientation) -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
-        count : 0
+        count : 0,
+        name: String::from("Green")
     };
 
     // Orientation always related to the longest part of the piece
@@ -225,7 +229,8 @@ pub fn create_green(orientation: Orientation) -> Piece {
 pub fn create_violet(horizontal: bool) -> Piece {
     let mut piece = Piece {
         fields : [[false; 4]; 4],
-        count : 0
+        count : 0,
+        name: String::from("Violet")
     };
 
     if horizontal == true {

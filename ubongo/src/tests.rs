@@ -1,7 +1,57 @@
 use core::panic;
+use std::result;
 
 use super::*;
 
+#[test]
+fn test_the_algorithm() {        
+    let board = create_board();
+    let blue_vert = create_blue(false);
+    let green_west = create_green(Orientation::West);
+    let red = create_red();
+    let pieces: Vec<Piece> = vec![red, green_west, blue_vert];
+    
+    let result = solve(board.fields, &pieces);
+    if result {
+        println!("Test succeeded");
+    } else {
+        panic!("Test did not succeed"); 
+    }
+}
+
+fn solve(fields: [[bool; 5]; 5], pieces: &Vec<Piece>) -> bool {
+    let result = solve_board(fields, pieces, 0);
+    
+    println!("Final board:");     
+    visualize_board(&fields);                
+    // result is true if we used all pieces and all could be fit into the board. 
+    // if the board still has non-empty fields, no solution possible
+    return result;}
+
+fn solve_board(fields: [[bool; 5]; 5], pieces: &Vec<Piece>, curr_piece: usize) -> bool {
+    let mut result = false;
+    if curr_piece >= pieces.len() {
+        if {check_board_complete(&fields)}.is_none() {
+            return true;
+        } else {
+            return false;       
+        }
+    }
+    
+    let piece = &pieces[curr_piece];
+    for i in 0..fields.len() {
+        for j in 0..fields[i].len() {        
+            if passing_piece(&fields, &piece, i, j) {
+                let mut copy_field = fields;
+                set_piece(&mut copy_field, &piece, i, j);
+                println!("After setting {} at ({},{})", piece.name, i, j);
+                visualize_board(&copy_field);
+                result = solve_board(copy_field, pieces, curr_piece + 1);                
+            }
+        }
+    }
+    return result;
+}
 
 #[test]
 fn search_for_real_solution() {        
